@@ -17,6 +17,8 @@ def plot_span(output_file, from_time, to_time):
 
     with open(tmp_data_file, "w") as tmp_file:
         for entry in entries:
+            if entry[1:] == (0,0,0,0,0):
+                continue
             tmp_file.write("%s\t%s\t%s\t%s\t%s\t%s\n" % entry)
 
     os.system("gnuplot -e \"ifile='%s'; ofile='%s'\" plot.gp" % (tmp_data_file, tmp_image_file))
