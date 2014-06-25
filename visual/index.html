@@ -15,7 +15,7 @@
             window.onload = function() {
                 window.setInterval(function() {
                     image = new Image();
-                    image.src = "days/latest.svg?t=" + new Date().getTime();
+                    image.src = "days/latest.png?t=" + new Date().getTime();
                     image.onload = function() {
                         document.getElementById("display").src = image.src;
                     }
@@ -25,6 +25,6 @@
     </head>
     <body>
         <h1>Steam Summer Sale team point log (today)</h1>
-        <img id="display" src="days/latest.svg" />
+        <img id="display" src="days/latest.png" />
     </body>
 </html>

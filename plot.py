@@ -9,7 +9,7 @@ conn = sqlite3.connect("scores.db")
 
 def plot_span(output_file, from_time, to_time):
     tmp_data_file = ".tmp.dat"
-    tmp_image_file = ".tmp.svg"
+    tmp_image_file = ".tmp.png"
 
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM scores WHERE time >= %s AND time <= %s" % (from_time, to_time))
@@ -44,11 +44,18 @@ def find_minima():
             yield time
         last_time = time
 
-filename_for_day = lambda day: path.join("visual", "days", str(day) + ".svg")
+filename_for_day = lambda day: path.join("visual", "days", str(day) + ".png")
 minima = list(find_minima())
-plot_span(filename_for_day(len(minima)), minima[-1], time.time() * 2)
-if not path.exists(filename_for_day(len(minima))) and len(minima) > 1:
-    plot_span(filename_for_day(len(minima) - 1), minima[-2], minima[-1])
+
+first_missing = 0
+while path.exists(filename_for_day(first_missing)):
+    first_missing += 1
+for i in range(max(0, first_missing - 1), len(minima)):
+    if i == len(minima) - 1:
+        end = time.time() * 2
+    else:
+        end = minima[i + 1]
+    plot_span(filename_for_day(i + 1), minima[i], end)
 
 latest = filename_for_day("latest")
 if path.exists(latest):
