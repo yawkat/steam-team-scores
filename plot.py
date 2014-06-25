@@ -21,7 +21,8 @@ def plot_span(output_file, from_time, to_time):
 
     os.system("gnuplot -e \"ifile='%s'; ofile='%s'\" plot.gp" % (tmp_data_file, tmp_image_file))
     os.remove(tmp_data_file)
-    os.remove(output_file)
+    if path.exists(output_file):
+        os.remove(output_file)
     os.rename(tmp_image_file, output_file)
 
 def find_minima():
@@ -45,7 +46,7 @@ plot_span(filename_for_day(len(minima)), minima[-1], time.time() * 2)
 if not path.exists(filename_for_day(len(minima))) and len(minima) > 1:
     plot_span(filename_for_day(len(minima) - 1), minima[-2], minima[-1])
 
-    latest = filename_for_day("latest")
-    if path.exists(latest):
-        os.unlink(latest)
-    os.symlink(filename_for_day(len(minima)), latest)
+latest = filename_for_day("latest")
+if path.exists(latest):
+    os.unlink(latest)
+os.symlink(path.abspath(filename_for_day(len(minima))), latest)
