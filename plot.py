@@ -21,6 +21,7 @@ def plot_span(output_file, from_time, to_time):
 
     os.system("gnuplot -e \"ifile='%s'; ofile='%s'\" plot.gp" % (tmp_data_file, tmp_image_file))
     os.remove(tmp_data_file)
+    os.makedirs(path.dirname(output_file))
     if path.exists(output_file):
         os.remove(output_file)
     os.rename(tmp_image_file, output_file)
