@@ -12,13 +12,11 @@ def plot_span(output_file, from_time, to_time):
     tmp_image_file = ".tmp.png"
 
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM scores WHERE time >= %s AND time <= %s" % (from_time, to_time))
+    cursor.execute("SELECT * FROM scores WHERE time >= %s AND time <= %s AND red != 0" % (from_time, to_time))
     entries = cursor.fetchall()
 
     with open(tmp_data_file, "w") as tmp_file:
         for entry in entries:
-            if entry[1:] == (0,0,0,0,0):
-                continue
             tmp_file.write("%s\t%s\t%s\t%s\t%s\t%s\n" % entry)
 
     os.system("gnuplot -e \"ifile='%s'; ofile='%s'\" plot.gp" % (tmp_data_file, tmp_image_file))
@@ -34,7 +32,7 @@ def find_minima():
     minima_time_threshold = 60 * 60
 
     cursor = conn.cursor()
-    cursor.execute("SELECT time FROM scores WHERE red < %s" % minima_point_threshold)
+    cursor.execute("SELECT time FROM scores WHERE red < %s AND red != 0" % minima_point_threshold)
     entries = cursor.fetchall()
     
     last_time = 0
