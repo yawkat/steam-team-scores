@@ -18,6 +18,10 @@
             .archived_day {
                 margin: 1em;
             }
+            #webchat object {
+                width: 600px;
+                height: 400px;
+            }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript">
@@ -53,11 +57,23 @@
                     };
                 });
             }
+            function show_webchat() {
+                var obj = $("#webchat object");
+                if (!obj.attr("data")) {
+                    obj.attr("data", "http://webchat.freenode.net?channels=%23yawkat");
+                }
+                obj.toggle();
+            }
+            $("#webchat object").hide();
         </script>
     </head>
     <body>
         <h1>Steam Summer Sale team point log (today)</h1>
         <img id="display" src="days/latest.png" />
+        <div id="webchat">
+            <p><a href="javascript:show_webchat()">Toggle Webchat</a></p>
+            <object></object>
+        </div>
         <div id="archive_wrapper">
             <a href="javascript:load_index()">Load archive</a>
             <div id="archive" />
