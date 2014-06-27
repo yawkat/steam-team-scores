@@ -10,22 +10,57 @@
                 text-align: center;
                 margin: 0 auto;
                 display: block;
+                max-width: 1100px;
+            }
+            .archived_day {
+                border: 1px solid #eee;
+            }
+            .archived_day {
+                margin: 1em;
             }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript">
-            window.onload = function() {
-                window.setInterval(function() {
-                    image = new Image();
+            $(function() {
+                setInterval(function() {
+                    console.log("Refreshing latest...");
+
+                    var image = new Image();
                     image.src = "days/latest.png?t=" + new Date().getTime();
                     image.onload = function() {
-                        document.getElementById("display").src = image.src;
+                        $("#display").attr("src", image.src);
                     }
                 }, 5000);
+            });
+
+            function load_index() {
+                $.getJSON("index.json", function(data) {
+                    $("#archive").empty();
+                    for (var i = data.length - 1; i >= 0; i--) {
+                        var entry = data[i];
+                        // don't show current day
+                        if (entry.latest) { continue; }
+
+                        var date = new Date(entry.start_time * 1000);
+
+                        var html = "<div class='archived_day'>";
+                        html +=        "<p>" + (date.getYear() + 1900) + "-" + 
+                                               (date.getMonth() + 1) + "-" + 
+                                               date.getDate() + " UTC</p>";
+                        html +=        "<img src='days/" + entry.image_id + ".png' />";
+                        html +=    "</div>";
+                        $("#archive").append(html);
+                    };
+                });
             }
         </script>
     </head>
     <body>
         <h1>Steam Summer Sale team point log (today)</h1>
         <img id="display" src="days/latest.png" />
+        <div id="archive_wrapper">
+            <a href="javascript:load_index()">Load archive</a>
+            <div id="archive" />
+        </div>
     </body>
 </html>
