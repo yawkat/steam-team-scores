@@ -14,7 +14,7 @@ def get_current_scores():
     return arr
 
 conn = sqlite3.connect("scores.db")
-interval = 5
+interval = 3
 
 conn.execute("CREATE TABLE IF NOT EXISTS scores "
     + "(time INTEGER PRIMARY KEY, red INT, blue INT, pink INT, green INT, purple INT)")
