@@ -29,12 +29,17 @@
                 setInterval(function() {
                     console.log("Refreshing latest...");
 
-                    var image = new Image();
-                    image.src = "days/latest.png?t=" + new Date().getTime();
-                    image.onload = function() {
-                        $("#display").attr("src", image.src);
+                    var image1 = new Image();
+                    image1.src = "days/latest.png?t=" + new Date().getTime();
+                    image1.onload = function() {
+                        $("#display").attr("src", image1.src);
                     }
-                }, 5000);
+                    var image2 = new Image();
+                    image2.src = "days/recent.png?t=" + new Date().getTime();
+                    image2.onload = function() {
+                        $("#display-recent").attr("src", image2.src);
+                    }
+                }, 2000);
                 $("#webchat object").hide();
             });
 
@@ -69,6 +74,7 @@
     </head>
     <body>
         <h1>Steam Summer Sale team point log (today)</h1>
+        <img id="display-recent" src="days/recent.png" />
         <img id="display" src="days/latest.png" />
         <div id="webchat">
             <p><a href="javascript:show_webchat()">Toggle Webchat</a></p>
