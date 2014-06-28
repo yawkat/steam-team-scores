@@ -64,6 +64,7 @@ for i in range(max(0, first_missing - 1), len(minima)):
     else:
         end = minima[i + 1]
     plot_span(filename_for_day(i + 1), minima[i], end)
+plot_span(filename_for_day("recent"), int(time.time()) - 3 * 60, int(time.time()))
 
 latest = filename_for_day("latest")
 if path.exists(latest):
