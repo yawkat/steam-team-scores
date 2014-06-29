@@ -17,6 +17,7 @@ set xdata time
 set timefmt "%s"
 set format x "%H:%M"
 set format y "%.0f"
+set label "steam.yawk.at\nmade by yawkat" at screen 0.1,0.93 textcolor rgb grey
 plot ifile using 1:(($2+$3+$4+$5+$6)/5) with lines linecolor rgb grey linewidth 3, \
      ifile using 1:2 with lines linewidth 1.5 linecolor rgb red, \
      ifile using 1:5 with lines linewidth 1.5 linecolor rgb green, \
