@@ -25,31 +25,11 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript">
-            $(function() {
-                setInterval(function() {
-                    console.log("Refreshing latest...");
-
-                    var image1 = new Image();
-                    image1.src = "days/latest.png?t=" + new Date().getTime();
-                    image1.onload = function() {
-                        $("#display").attr("src", image1.src);
-                    }
-                    var image2 = new Image();
-                    image2.src = "days/recent.png?t=" + new Date().getTime();
-                    image2.onload = function() {
-                        $("#display-recent").attr("src", image2.src);
-                    }
-                }, 2000);
-                $("#webchat object").hide();
-            });
-
             function load_index() {
                 $.getJSON("index.json", function(data) {
                     $("#archive").empty();
                     for (var i = data.length - 1; i >= 0; i--) {
                         var entry = data[i];
-                        // don't show current day
-                        if (entry.latest) { continue; }
 
                         var date = new Date(entry.start_time * 1000);
 
@@ -63,24 +43,11 @@
                     };
                 });
             }
-            function show_webchat() {
-                var obj = $("#webchat object");
-                if (!obj.attr("data")) {
-                    obj.attr("data", "http://webchat.freenode.net?channels=%23yawkat");
-                }
-                obj.toggle();
-            }
         </script>
     </head>
     <body>
         <h1>Steam Summer Sale team point log (today)</h1>
         <p>The sale is over! If you liked this site, check out <a http="http://yawk.at/">my website</a>.</p>
-        <img id="display-recent" src="days/recent.png" />
-        <img id="display" src="days/latest.png" />
-        <div id="webchat">
-            <p><a href="javascript:show_webchat()">Toggle Webchat</a></p>
-            <object></object>
-        </div>
         <div id="archive_wrapper">
             <a href="javascript:load_index()">Load archive</a>
             <div id="archive" />
